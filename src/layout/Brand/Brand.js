@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Icon from '../../components/icon/Icon';
-import Logo from '../../components/Logo';
+import logo from "../../assets/WEBIE-01-white.png"
 
+const logohead={width:130,hieght:400}
 const Brand = ({ asideStatus, setAsideStatus }) => {
 	return (
 		<div className='brand'>
 			<div className='brand-logo'>
 				<h1 className='brand-title '>
 					<Link to='/' aria-label='Logo' alt='Facit'>
-						<Logo height={32} />
+						<img src={logo} alt="logo" style={logohead}/>
 					</Link>
 				</h1>
 			</div>

@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import axios from "axios";
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
@@ -10,6 +11,8 @@ import Input from '../../../components/bootstrap/forms/Input';
 import Button from '../../../components/bootstrap/Button';
 import Logo from '../../../components/Logo';
 import useDarkMode from '../../../hooks/useDarkMode';
+
+
 
 // eslint-disable-next-line react/prop-types
 const LoginHeader = ({ isNewUser }) => {
@@ -34,9 +37,65 @@ const Login = ({ isSignUp }) => {
 
 	const [usernameInput, setUsernameInput] = useState(false);
 	const [isNewUser, setIsNewUser] = useState(isSignUp);
+	const [user, setuser] = useState({
+		name: "",
+		username: "",
+		city: "",
+		father_name: "",
+		job_designation: "",
+		job_location: "",
+		year_of_graduation: "",
+		institute: "",
+		country: "",
+		mobile_number: "",
+		packages: "",
+		duration: "",
+		email: "",
+		password: ""
+	})
+	const Handle = e => {
+		const { name, value } = e.target
+		setuser({
+			...user,
+			[name]: value
+		})
+	}
 
-	const navigate = useNavigate();
-	const handleOnClick = useCallback(() => navigate('/'), [navigate]);
+
+
+	async function Register() {
+
+		axios.post("http://localhost:4000/Register",user)
+        .then(res=> alert(res.data.message))
+	
+	}
+	const handleLogin = async e => {
+		e.preventDefault();
+		const token = await Register();
+
+		if (token.success) {
+			setToken(token.data.access_token);
+			alertSuccess();
+		} else {
+			alertError();
+		}
+	}
+	function setToken(userToken) {
+		sessionStorage.setItem('token', JSON.stringify(userToken));
+
+		console.log(sessionStorage.getItem('token'));
+	}
+
+	function alertSuccess() {
+		alert('success')
+	}
+
+	function alertError() {
+		alert("error")
+	}
+
+	// const navigate = useNavigate();
+	// const handleOnClick = useCallback(() => navigate('/'), [navigate]);
 
 	return (
 		<PageWrapper
@@ -97,49 +156,184 @@ const Login = ({ isSignUp }) => {
 
 								<LoginHeader isNewUser={isNewUser} />
 
-								<form className='row g-4'>
+								<form className='row g-4' >
 									{isNewUser ? (
 										<>
 											<div className='col-12'>
 												<FormGroup
-													id='signup-email'
+													id='name'
 													isFloating
-													label='Your email'>
-													<Input type='email' autoComplete='email' />
+													label='Name'>
+
+													<Input type='text' autoComplete='Name' onChange={Handle} />
 												</FormGroup>
 											</div>
 											<div className='col-12'>
 												<FormGroup
-													id='signup-name'
+													id='uername'
 													isFloating
-													label='Your name'>
-													<Input autoComplete='given-name' />
+													label='UserName'>
+													<Input autoComplete='given-name' onChange={Handle} />
 												</FormGroup>
 											</div>
 											<div className='col-12'>
 												<FormGroup
-													id='signup-surname'
+													id='city'
 													isFloating
-													label='Your surname'>
-													<Input autoComplete='family-name' />
+													label='City'>
+													<Input autoComplete='city' onChange={Handle} />
 												</FormGroup>
 											</div>
 											<div className='col-12'>
 												<FormGroup
-													id='signup-password'
+													id='father_name'
 													isFloating
-													label='Password'>
+													label='Father Name'>
 													<Input
-														type='password'
-														autoComplete='password'
+														type='FatherName'
+														autoComplete='FatherName'
+														onChange={Handle}
 													/>
 												</FormGroup>
 											</div>
 											<div className='col-12'>
+												<FormGroup
+													id='job_designation'
+													isFloating
+													label='job_designation'>
+													<Input
+														type='text'
+														autoComplete='job_designation'
+														onChange={Handle}
+													/>
+												</FormGroup>
+											</div>
+											<div className='col-12'>
+												<FormGroup
+													id='Job_location'
+													isFloating
+													label='Job_location'>
+													<Input
+														type='text'
+														autoComplete='Job_location'
+														onChange={Handle}
+													/>
+												</FormGroup>
+											</div>
+											<div className='col-12'>
+												<FormGroup
+													id='year_of_graduation'
+													isFloating
+													label='Year_of_graduation'>
+													<Input
+														type='text'
+														autoComplete='ye'
+														onChange={Handle}
+													/>
+												</FormGroup>
+											</div>
+											<div className='col-12'>
+												<FormGroup
+													id='institute'
+													isFloating
+													label='institute'>
+													<Input
+														type='text'
+														autoComplete='institute'
+														onChange={Handle}
+													/>
+												</FormGroup>
+											</div>
+											<div className='col-12'>
+												<FormGroup
+													id='country'
+													isFloating
+													label='Country'>
+													<Input
+														type='text'
+														autoComplete='country'
+														onChange={Handle}
+													/>
+												</FormGroup>
+											</div>
+											<div className='col-12'>
+												<FormGroup
+													id='mobile_number'
+													isFloating
+													label='mobile_number'>
+													<Input
+														type='number'
+														autoComplete='mobile_number'
+														onChange={Handle}
+													/>
+												</FormGroup>
+											</div>
+											<div className='col-12'>
+												<FormGroup
+													id='Packages'
+													isFloating
+													label='Packages'>
+													<Input
+														type='text'
+														autoComplete='Packeges'
+														onChange={Handle}
+													/>
+												</FormGroup>
+											</div>
+											<div className='col-12'>
+												<FormGroup
+													id='Duration'
+													isFloating
+													label='Duration'>
+													<Input
+														type='number'
+														autoComplete='Duration'
+														onChange={Handle}
+													/>
+												</FormGroup>
+											</div>
+											<div className='col-12'>
+												<FormGroup
+													id='Email'
+													isFloating
+													label='Email'>
+													<Input
+														type='email'
+														autoComplete='Email'
+														onChange={Handle}
+													/>
+												</FormGroup>
+											</div>
+											<div className='col-12'>
+												<FormGroup
+													id='Password'
+													isFloating
+													label='Password'>
+													<Input
+														type='Password'
+														autoComplete='Password'
+														onChange={Handle}
+													/>
+												</FormGroup>
+											</div>
+											{/* <div className='col-12'>
+												<FormGroup
+													id='Password_confirmation'
+													isFloating
+													label='Password_confirmation'>
+													<Input
+														type='password'
+														autoComplete='Password'
+														onChange={Handle}
+
+													/>
+												</FormGroup>
+											</div> */}
+											<div className='col-12'>
 												<Button
 													color='info'
 													className='w-100 py-3'
-													onClick={handleOnClick}>
+													onClick={handleLogin}      >
 													Sign Up
 												</Button>
 											</div>
@@ -178,7 +372,7 @@ const Login = ({ isSignUp }) => {
 													<Button
 														color='warning'
 														className='w-100 py-3'
-														onClick={handleOnClick}>
+													>
 														Login
 													</Button>
 												)}
@@ -201,7 +395,7 @@ const Login = ({ isSignUp }) => {
 														'border-dark': darkModeStatus,
 													})}
 													icon='CustomApple'
-													onClick={handleOnClick}>
+												>
 													Sign in with Apple
 												</Button>
 											</div>
@@ -214,7 +408,7 @@ const Login = ({ isSignUp }) => {
 														'border-dark': darkModeStatus,
 													})}
 													icon='CustomGoogle'
-													onClick={handleOnClick}>
+												>
 													Continue with Google
 												</Button>
 											</div>
